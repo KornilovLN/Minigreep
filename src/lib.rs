@@ -3,6 +3,7 @@
 //--- переменные и методы должны быть pub
 //-----------------------------------------------------------------------------
 //--- Author: Kornilov LN (Starmark)
+//--- github: "https://github.com/KornilovLN/Life.git"
 //--- e-mail: KornilovStar@gmail.com
 //--- e-mail: ln.starmark@ekatra.io
 //--- e-mail: ln.starmark@gmail.com
@@ -28,6 +29,8 @@ use ansi_term::Colour;
 
 use std::error::Error;
 use std::fs;
+
+use std::{thread, time};
 
 //=== Секция Config ===========================================================
 
@@ -58,6 +61,48 @@ impl Config {
 		println!("--- Поиск   \t{}",self.query);
 		println!("--- В файле \t{}",self.filename);
 		println!("--------------------------------------------------------\n");
+	}
+}
+
+//=== Секция About ============================================================
+
+pub struct About {
+	pub firstname: String,		//--- имя
+	pub secondname: String,		//--- отчество
+	pub mainname: String,		//--- фамилия
+	pub author: String,		//--- полный идентификатор автора
+	pub github: String,		//--- Github 
+	pub e_mail: String,		//--- почтовый ящик
+	pub datetime: String,	//--- 14.08.2023 13:10:00
+}
+
+impl About {
+	pub fn Waiter(&self, pause: u64) {
+		thread::sleep(time::Duration::from_secs(pause));
+	}
+}
+
+impl About {
+	pub fn Out(&self) {
+		println!("\t----------------------------------------------------------------------------");
+		println!("\tAuthor:      {}", self.author);
+				println!("\t\tFirst name:  {}", self.firstname);
+				println!("\t\tSecond name: {}", self.secondname);
+				println!("\t\tMain name:   {}", self.mainname);
+		println!("\tGithub:      {}", self.github);
+		println!("\te-mail:      {}", self.e_mail);
+		println!("\tDate Time:   {}", self.datetime);
+		println!("\t----------------------------------------------------------------------------");
+	}
+}
+
+impl About {
+	pub fn Target(&self) {
+		println!("\t----------------------------------------------------------------------------");
+		println!("\n\tFind string in text.");
+		println!("\n\tПрограмма тестирования и отработки методов создания и управления\n");
+		println!("\tчтением и записью текстовых файлов, поиском строк с указанием шаблона\n");
+		println!("\t----------------------------------------------------------------------------\n");
 	}
 }
 
