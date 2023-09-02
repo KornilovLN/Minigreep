@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 //--- Author: Kornilov LN (Starmark)
 //--- github: "https://github.com/KornilovLN/Life.git"
-//--- e-mail: KornilovStar@gmail.com
+//--- e-mail: ln.KornilovStar@gmail.com
 //--- e-mail: ln.starmark@ekatra.io
 //--- e-mail: ln.starmark@gmail.com
 //--- date:   11.08.2023 02:40:00
