@@ -21,7 +21,7 @@ use std::env;
 use std::process;
 
 //--- библиотека lib.rs содержит: Config, run(); Секция Tests
-use minigreep::{Config, About};
+use minigreep::Config; // {Config, About};
 
 
 fn main() {
@@ -29,24 +29,10 @@ fn main() {
 	//--- Получить и разместить в векторе аргументы строки запуска ПО
 	let args: Vec<String> = env::args().collect();
 
-	let about = About {
-		firstname: "Leonid".to_string(),
-		secondname: "Nikolaevich".to_string(),
-		mainname: "Kornilov".to_string(),	
-		author: "Kornilov LN (Starmark)".to_string(),
-		github: "https://github.com/KornilovLN/Life.git".to_string(),
-		e_mail: "ln.KornilovStar@gmail.com".to_string(),
-		datetime: "11.08.2023 02:40:00".to_string(),
-	};
-
-	about.Out();
-	about.Target();
-	about.Waiter(1);
-
 	//--- Попытка создать структуру данных на основе аргументов строки
 	//--- и проанализировать на ошибки (по результату - продолжить или выйти)
 	let config = Config::new(&args).unwrap_or_else(|err| {
-		eprintln!("Проблема при разборе аргументов: {}", err);
+		eprintln!("{} {}", Colour::Red.paint("Проблема при разборе аргументов: "), err);
 		process::exit(1);
 	});
 
@@ -55,10 +41,7 @@ fn main() {
 
 	//--- Основная работа ПО: поиск нужных строк по шаблону в файле 
 	if let Err(e) = minigreep::run(config) {
-		eprintln!("Ошибка в приложении: {}", e);
-		
-
-
+		eprintln!("{} {}", Colour::Red.paint("Ошибка в приложении: "), e);
 		process::exit(1);
 	}	
 	

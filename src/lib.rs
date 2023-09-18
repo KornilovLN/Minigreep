@@ -30,7 +30,12 @@ use ansi_term::Colour;
 use std::error::Error;
 use std::fs;
 
-use std::{thread, time};
+//use std::{thread, time};
+
+extern crate time; 
+use time::precise_time_ns;
+
+mod md_about;
 
 //=== Секция Config ===========================================================
 
@@ -58,57 +63,31 @@ impl Config {
 impl Config {
 	pub fn out(&self) {
 		println!("\n--------------------------------------------------------");
-		println!("--- Поиск   \t{}",self.query);
-		println!("--- В файле \t{}",self.filename);
+		println!("--- Поиск   \t{}",Colour::Yellow.paint(&self.query));
+		println!("--- В файле \t{}",Colour::Yellow.paint(&self.filename));
 		println!("--------------------------------------------------------\n");
 	}
 }
 
-//=== Секция About ============================================================
-
-pub struct About {
-	pub firstname: String,		//--- имя
-	pub secondname: String,		//--- отчество
-	pub mainname: String,		//--- фамилия
-	pub author: String,		//--- полный идентификатор автора
-	pub github: String,		//--- Github 
-	pub e_mail: String,		//--- почтовый ящик
-	pub datetime: String,	//--- 14.08.2023 13:10:00
-}
-
-impl About {
-	pub fn Waiter(&self, pause: u64) {
-		thread::sleep(time::Duration::from_secs(pause));
-	}
-}
-
-impl About {
-	pub fn Out(&self) {
-		println!("\t----------------------------------------------------------------------------");
-		println!("\tAuthor:      {}", self.author);
-				println!("\t\tFirst name:  {}", self.firstname);
-				println!("\t\tSecond name: {}", self.secondname);
-				println!("\t\tMain name:   {}", self.mainname);
-		println!("\tGithub:      {}", self.github);
-		println!("\te-mail:      {}", self.e_mail);
-		println!("\tDate Time:   {}", self.datetime);
-		println!("\t----------------------------------------------------------------------------");
-	}
-}
-
-impl About {
-	pub fn Target(&self) {
-		println!("\t----------------------------------------------------------------------------");
-		println!("\n\tFind string in text.");
-		println!("\n\tПрограмма тестирования и отработки методов создания и управления\n");
-		println!("\tчтением и записью текстовых файлов, поиском строк с указанием шаблона\n");
-		println!("\t----------------------------------------------------------------------------\n");
-	}
-}
 
 //=== Секция Run ==============================================================
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+
+	let about = md_about::StAbout::new (
+		"Leonid",
+		"Nikolaevich",
+		"Kornilov",	
+		"Kornilov LN (Starmark)",
+		"https://github.com/KornilovLN/Life.git",
+		"ln.KornilovStar@gmail.com",
+		"11.08.2023 02:40:00",
+	);
+	about.out();
+	about.waiter(1);
+
+//let t_start: i64 =  about.get_datetime();
+let t_start = precise_time_ns();
 
 	//--- Из текста читаем в contens
 	let contents = fs::read_to_string(config.filename)?;
@@ -153,7 +132,17 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
 	}
 
-	println!("\nВсего найдено {} строк, содержащих запрос\n", cnt);
+//let t_end: i64 =  about.get_datetime();
+//let t_len: i64 = t_end - t_start;
+//println!("Найдено за {} usec", Colour::Red.paint(t_len.to_string())); 
+let t_total = precise_time_ns() - t_start;
+
+	println!("\nВсего найдено {} строк, содержащих запрос: '{}', за {} nsec or {} msec\n", 
+				Colour::Yellow.paint(cnt.to_string()), 
+				Colour::Yellow.paint(&config.query.to_string()),
+				Colour::Red.paint(t_total.to_string()),
+				Colour::Red.paint((t_total/1000/1000).to_string()),
+			);
 
 	Ok(())
 	

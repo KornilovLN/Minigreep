@@ -3,9 +3,14 @@ name = "minigreep"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at 
 # https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
- ansi_term = "0.12"
- clap = "2.33"
+ansi_term = "0.12"
+clap = "2.33"
+
+chrono = "0.4"
+datetime = "0.5.2"
+
+time = "0.1.13"
+
